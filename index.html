@@ -1,41 +1,298 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0a0c" />
-  <title>JARVIS SYSTEM v2.4</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="scanlines" aria-hidden="true"></div>
-  <div class="grid-glow" aria-hidden="true"></div>
-  <header class="topbar">
-    <a class="brand" href="#dashboard" aria-label="JARVIS dashboard"><span class="brand-mark">J</span><span><strong>JARVIS</strong><small>SYSTEM v2.4</small></span></a>
-    <div class="topbar-actions"><div class="system-state"><i></i><span>SYSTEM ONLINE</span></div><button class="icon-button" id="settingsButton" aria-label="Einstellungen" title="Einstellungen">⚙</button><button class="brain-button" id="brainButton"><span class="brain-icon">◉</span> BRAIN VIEW <span class="slash">/</span> HIRN</button></div>
-  </header>
-  <main class="shell" id="dashboard">
-    <section class="hero panel">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="pulse-dot"></span> NEURAL OPERATING INTERFACE</p>
-        <h1>Good evening,<br /><em>Commander.</em></h1>
-        <p class="hero-description">All systems are nominal. Your intelligence layer is ready for the next command.</p>
-        <div class="command-row"><input id="commandInput" type="text" placeholder="Ask JARVIS anything..." autocomplete="off" /><button class="send-button" id="sendButton">SEND <span>↗</span></button></div>
-        <div class="suggestions"><button data-command="Run a full system diagnostic">DIAGNOSTICS</button><button data-command="What is our current status?">STATUS REPORT</button><button data-command="Tell me a joke">SMALL TALK</button></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0c" />
+    <title>JARVIS SYSTEM v3.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand" aria-label="JARVIS dashboard">
+        <span class="brand-mark">J</span>
+        <div>
+          <strong>JARVIS</strong>
+          <small>SYSTEM v3.0</small>
+        </div>
       </div>
-      <div class="orbital-display jarvis-header-display">
-        <div class="jarvis-image-frame"><img class="jarvis-header-image" src="Bildschirmfoto%202026-09-22%20um%2020.41.46.png" alt="JARVIS Roboterkopf mit futuristischer Systemoberfläche" /><div class="image-scanline" aria-hidden="true"></div><div class="image-corner top-left"></div><div class="image-corner top-right"></div><div class="image-corner bottom-left"></div><div class="image-corner bottom-right"></div><div class="mouth-light" id="mouthLight"></div></div>
-        <div class="core-label"><span class="core-dot"></span><span>JARVIS CORE ACTIVE</span><small id="clock">00:00:00</small></div>
+
+      <div class="topbar-actions">
+        <div class="system-state"><span class="status-dot"></span><span>ONLINE</span></div>
+        <button class="icon-button" id="settingsButton" aria-label="Open settings">⚙</button>
+        <button class="brain-button" id="brainButton">
+          <span class="brain-icon">◉</span>
+          <span>Brain View</span>
+          <span class="slash">/</span>
+          <span>Hirn</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="view dashboard-view active" id="dashboardView">
+      <section class="hero panel">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse-dot"></span> NEURAL OPERATING INTERFACE</p>
+          <h1>Good evening,<br /><em>Commander.</em></h1>
+          <p class="hero-description">
+            All systems are nominal. Your intelligence layer is ready for the next command.
+          </p>
+
+          <div class="command-row">
+            <input id="commandInput" type="text" placeholder="Ask JARVIS anything..." autocomplete="off" />
+            <button class="send-button" id="sendButton">SEND <span>↗</span></button>
+          </div>
+
+          <div class="suggestions">
+            <button data-command="Run a full system diagnostic">DIAGNOSTICS</button>
+            <button data-command="What is our current status?">STATUS REPORT</button>
+            <button data-command="Tell me a joke">SMALL TALK</button>
+          </div>
+        </div>
+
+        <div class="robot-visual">
+          <div class="robot-shell">
+            <div class="head-glow"></div>
+            <img
+              class="jarvis-head"
+              src="Bildschirmfoto%202026-09-22%20um%2020.41.46.png"
+              alt="JARVIS robotic head"
+            />
+            <div class="robot-overlay"></div>
+            <div class="head-corners">
+              <span class="corner tl"></span>
+              <span class="corner tr"></span>
+              <span class="corner bl"></span>
+              <span class="corner br"></span>
+            </div>
+            <div class="mouth-light" id="mouthLight"></div>
+          </div>
+          <div class="core-label">
+            <span class="core-dot"></span>
+            <span>JARVIS CORE ACTIVE</span>
+            <small id="clock">00:00:00</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics panel" aria-label="Live telemetry">
+        <div class="section-heading">
+          <span>◈ LIVE TELEMETRY</span>
+          <small>UPTIME 14:32:08</small>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric">
+            <div class="metric-top"><span>CPU LOAD</span><b id="cpuValue">42%</b></div>
+            <div class="bar"><i id="cpuBar" style="width: 42%"></i></div>
+            <small>8 CORES · 4.20 GHZ</small>
+          </article>
+
+          <article class="metric">
+            <div class="metric-top"><span>MEMORY</span><b id="memoryValue">68%</b></div>
+            <div class="bar"><i id="memoryBar" style="width: 68%"></i></div>
+            <small>10.9 / 16.0 GB ALLOCATED</small>
+          </article>
+
+          <article class="metric">
+            <div class="metric-top"><span>NETWORK</span><b id="networkValue">24<span>ms</span></b></div>
+            <div class="bar cyan"><i id="networkBar" style="width: 22%"></i></div>
+            <small>SECURE TUNNEL · ENCRYPTED</small>
+          </article>
+
+          <article class="metric api-metric">
+            <div class="metric-top"><span>API CONNECTION</span><b class="connected"><i></i>CONNECTED</b></div>
+            <div class="connection-line">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <small id="apiEndpoint">LOCAL GATEWAY · V1</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel quick-panel">
+          <div class="section-heading">
+            <span>◈ QUICK ACCESS</span>
+            <small>COMMAND MODULES</small>
+          </div>
+
+          <div class="quick-grid">
+            <button class="quick-action" data-action="diagnostic">
+              <span class="action-icon">⌁</span>
+              <span><b>SYSTEM DIAGNOSTICS</b><small>Run full scan</small></span>
+              <strong>›</strong>
+            </button>
+
+            <button class="quick-action" data-action="mute">
+              <span class="action-icon">◉</span>
+              <span><b>VOICE MUTE</b><small id="muteLabel">Audio output enabled</small></span>
+              <strong>›</strong>
+            </button>
+
+            <button class="quick-action" data-action="clear">
+              <span class="action-icon">⌫</span>
+              <span><b>CLEAR LOGS</b><small>Reset conversation buffer</small></span>
+              <strong>›</strong>
+            </button>
+
+            <button class="quick-action" data-action="api">
+              <span class="action-icon">⌬</span>
+              <span><b>API STATUS</b><small>All services operational</small></span>
+              <strong>›</strong>
+            </button>
+          </div>
+        </article>
+
+        <article class="panel logs-panel">
+          <div class="section-heading">
+            <span>◈ LIVE LOG / CHAT</span>
+            <small id="logCount">4 EVENTS</small>
+          </div>
+
+          <div class="log-list" id="logList"></div>
+
+          <div class="log-entry">
+            <span class="prompt">›</span>
+            <input id="logInput" placeholder="Type a message to JARVIS..." />
+            <span class="enter">⏎</span>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <section class="view brain-view" id="brainView" aria-hidden="true">
+      <header class="brain-topbar">
+        <div class="brain-title">
+          <span>◈ NEURAL ARCHITECTURE</span>
+          <small>HIERARCHICAL KNE-LAYER</small>
+        </div>
+        <div class="brain-actions">
+          <button class="brain-action" id="settingsButtonBrain" type="button">SETTINGS</button>
+          <button class="brain-action" id="closeBrain" type="button">← BACK TO DASHBOARD</button>
+        </div>
+      </header>
+
+      <div class="brain-layout">
+        <div class="brain-stage">
+          <canvas id="brainCanvas"></canvas>
+          <div class="brain-hud">
+            <div><b>NODE</b> HIERARCHY</div>
+            <div><b>STATE</b> ACTIVE</div>
+          </div>
+          <div class="brain-readout">
+            <div><strong>ROOT</strong> JARVIS</div>
+            <div><strong>SYNC</strong> STABLE</div>
+          </div>
+
+          <div class="brain-hub">
+            <span>J</span>
+            <small>MAIN HUB</small>
+          </div>
+
+          <div class="brain-node node-core" data-name="Core Logic">
+            <div>Core Logic</div>
+            <small>Primary reasoning</small>
+          </div>
+
+          <div class="brain-node node-memory" data-name="Memory">
+            <div>Memory</div>
+            <small>Context lattice</small>
+          </div>
+
+          <div class="brain-node node-language" data-name="Language Model">
+            <div>Language Model</div>
+            <small>Inference stream</small>
+          </div>
+
+          <div class="brain-node node-voice" data-name="Voice TTS">
+            <div>Voice TTS</div>
+            <small>Audio synthesis</small>
+          </div>
+
+          <div class="brain-node node-tools" data-name="Tooling">
+            <div>Tooling</div>
+            <small>API & execution</small>
+          </div>
+        </div>
+
+        <aside class="brain-sidebar panel">
+          <h2>Neural status</h2>
+          <p>
+            The core reasoning lattice is synchronized across language, memory, and tool execution lanes.
+          </p>
+
+          <div class="brain-stat">
+            <span><span>Language Model</span><b>86.4%</b></span>
+            <i></i>
+          </div>
+
+          <div class="brain-stat">
+            <span><span>Context Memory</span><b>71.2%</b></span>
+            <i style="background:linear-gradient(90deg,#00f3ff 0 71%,rgba(255,255,255,.08) 71%); box-shadow:0 0 9px rgba(0,243,255,.6)"></i>
+          </div>
+
+          <div class="brain-stat">
+            <span><span>Reasoning Engine</span><b>94.8%</b></span>
+            <i style="background:linear-gradient(90deg,#ffd700 0 94%,rgba(255,255,255,.08) 94%); box-shadow:0 0 9px rgba(255,215,0,.5)"></i>
+          </div>
+
+          <button class="brain-settings" id="settingsButtonFromBrain" type="button">OPEN CONFIGURATION</button>
+        </aside>
       </div>
     </section>
-    <section class="metrics panel" aria-label="System metrics"><div class="section-heading"><span>◈ LIVE TELEMETRY</span><small>UPTIME 14:32:08</small></div><div class="metric-grid"><article class="metric"><div class="metric-top"><span>CPU LOAD</span><b id="cpuValue">42%</b></div><div class="bar"><i id="cpuBar" style="width:42%"></i></div><small>8 CORES · 4.20 GHZ</small></article><article class="metric"><div class="metric-top"><span>MEMORY</span><b id="memoryValue">68%</b></div><div class="bar"><i id="memoryBar" style="width:68%"></i></div><small>10.9 / 16.0 GB ALLOCATED</small></article><article class="metric"><div class="metric-top"><span>NETWORK</span><b id="networkValue">24<span>ms</span></b></div><div class="bar cyan"><i id="networkBar" style="width:22%"></i></div><small>SECURE TUNNEL · ENCRYPTED</small></article><article class="metric api-metric"><div class="metric-top"><span>API CONNECTION</span><b class="connected"><i></i>CONNECTED</b></div><div class="connection-line"><span></span><span></span><span></span><span></span><span></span><span></span></div><small id="apiEndpoint">LOCAL GATEWAY · V1</small></article></div></section>
-    <section class="lower-grid"><article class="panel quick-panel"><div class="section-heading"><span>◈ QUICK ACCESS</span><small>COMMAND MODULES</small></div><div class="quick-grid"><button class="quick-action" data-action="diagnostic"><span class="action-icon">⌁</span><span><b>SYSTEM DIAGNOSTICS</b><small>Run full scan</small></span><strong>›</strong></button><button class="quick-action" data-action="mute"><span class="action-icon">◉</span><span><b>VOICE MUTE</b><small id="muteLabel">Audio output enabled</small></span><strong>›</strong></button><button class="quick-action" data-action="clear"><span class="action-icon">⌫</span><span><b>CLEAR LOGS</b><small>Reset conversation buffer</small></span><strong>›</strong></button><button class="quick-action" data-action="api"><span class="action-icon">⌬</span><span><b>API STATUS</b><small>All services operational</small></span><strong>›</strong></button></div></article><article class="panel logs-panel"><div class="section-heading"><span>◈ LIVE LOG / CHAT</span><small id="logCount">4 EVENTS</small></div><div class="log-list" id="logList"></div><div class="log-entry"><span class="prompt">›</span><input id="logInput" placeholder="Type a message to JARVIS..." /><span class="enter">⏎</span></div></article></section>
-  </main>
-  <section class="brain-view" id="brainView" aria-hidden="true"><div class="brain-header"><span class="eyebrow">◈ NEURAL ARCHITECTURE</span><button class="brain-button" id="closeBrain">← RETURN TO DASHBOARD</button></div><div class="brain-stage"><div class="brain-network"><div class="brain-core">J<br /><small>NEURAL<br />CORE</small></div><i class="node n1"></i><i class="node n2"></i><i class="node n3"></i><i class="node n4"></i><i class="node n5"></i><span class="link l1"></span><span class="link l2"></span><span class="link l3"></span><span class="link l4"></span></div><div class="brain-info panel"><p class="eyebrow">PROCESSING DISTRIBUTION</p><h2>Neural activity<br /><em>nominal.</em></h2><div class="brain-stat"><span>LANGUAGE MODEL</span><b>86.4%</b></div><div class="brain-stat"><span>CONTEXT MEMORY</span><b>71.2%</b></div><div class="brain-stat"><span>REASONING ENGINE</span><b>94.8%</b></div></div></div></section>
-  <dialog id="settingsModal" class="settings-modal"><form method="dialog" id="settingsForm"><div class="modal-header"><div><p class="eyebrow">◈ CONFIGURATION</p><h2>System settings</h2></div><button class="close-button" value="cancel" aria-label="Schließen">×</button></div><fieldset><legend>API SETTINGS <span>FREE LLM API / CLAUDE CODE</span></legend><label for="baseUrl">ANTHROPIC_BASE_URL</label><input id="baseUrl" name="baseUrl" type="url" placeholder="http://localhost:3000/v1" /><label for="authToken">ANTHROPIC_AUTH_TOKEN</label><div class="password-field"><input id="authToken" name="authToken" type="password" placeholder="Enter API token" /><button type="button" id="toggleToken">SHOW</button></div><p class="field-note">Credentials are stored locally in this browser only.</p></fieldset><fieldset><legend>VOICE SETTINGS <span>CLOUD TTS / WEB SPEECH API</span></legend><label for="voiceSelect">PREFERRED LANGUAGE</label><select id="voiceSelect"><option value="de-CH">Schweizerdeutsch · de-CH</option><option value="de-DE">Hochdeutsch · de-DE</option><option value="en-US">English · en-US</option></select></fieldset><div class="modal-footer"><span id="saveMessage"></span><button class="send-button" value="default">SAVE CONFIGURATION</button></div></form></dialog>
-  <div class="toast" id="toast" role="status"></div><script src="app.js"></script>
-</body>
+
+    <dialog id="settingsModal" class="settings-modal">
+      <form method="dialog" id="settingsForm">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">◈ CONFIGURATION</p>
+            <h2>System settings</h2>
+          </div>
+          <button class="close-button" value="cancel" aria-label="Close settings">×</button>
+        </div>
+
+        <fieldset>
+          <legend>API SETTINGS <span>FREE LLM API / CLAUDE CODE</span></legend>
+
+          <label for="baseUrl">ANTHROPIC_BASE_URL</label>
+          <input id="baseUrl" name="baseUrl" type="url" placeholder="http://localhost:3000/v1" />
+
+          <label for="authToken">ANTHROPIC_AUTH_TOKEN</label>
+          <div class="password-field">
+            <input id="authToken" name="authToken" type="password" placeholder="Enter API token" />
+            <button type="button" id="toggleToken">SHOW</button>
+          </div>
+
+          <p class="field-note">Credentials are stored locally in this browser only.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>VOICE SETTINGS <span>CLOUD TTS / WEB SPEECH API</span></legend>
+
+          <label for="voiceSelect">PREFERRED LANGUAGE</label>
+          <select id="voiceSelect">
+            <option value="de-CH">Schweizerdeutsch · de-CH</option>
+            <option value="de-DE">Hochdeutsch · de-DE</option>
+            <option value="en-US">English · en-US</option>
+          </select>
+        </fieldset>
+
+        <div class="modal-footer">
+          <span id="saveMessage"></span>
+          <button class="send-button modal-save" value="default">SAVE CONFIGURATION</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
 </html>
